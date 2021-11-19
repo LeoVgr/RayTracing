@@ -1,8 +1,8 @@
 #pragma once
 #include <iostream>
 #include <fstream>
-#include "Vec3.h"
 #include "Ray.h"
+#include "World.h"
 
 
 class Camera
@@ -26,7 +26,9 @@ class Camera
 		
 	public :
 		Camera() : position(0,0,0) {}
-		void Render();
+
+		void Render(World& world);
+		Vec3 RayColor(Ray& r, World& world) const;
 
 	
 };

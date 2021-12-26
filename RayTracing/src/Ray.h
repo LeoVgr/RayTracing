@@ -4,12 +4,11 @@
 
 class Ray 
 {
-	public :
-		Vec3 origin;
-		Vec3 direction;
+public :
+	Vec3 Origin;
+	Vec3 Direction;
 
-	public :
-		Ray() : origin(Vec3(0.0f, 0.0f, 0.0f)), direction(Vec3(0.0f, 0.0f, 0.0f)) {};
-		Ray(Vec3 p_origin, Vec3 p_direction) : origin(p_origin), direction(p_direction) {};
+	Ray() : Origin(Vec3(0.0f, 0.0f, 0.0f)), Direction(Vec3(0.0f, 0.0f, 0.0f)) {};
+	Ray(Vec3 origin, Vec3 direction) : Origin(origin), Direction(direction) {};
 
 };

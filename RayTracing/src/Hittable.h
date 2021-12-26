@@ -4,13 +4,13 @@
 
 struct HitRecord
 {
-	Vec3 point;
-	Vec3 normal;
-	float t;
+	Vec3 Point;
+	Vec3 Normal;
+	float T;
 };
 
 class Hittable
 {
-	public:
-		virtual bool Hit(const Ray& p_r, float p_tMin, float p_tMax, HitRecord& rec) const = 0;		
+public:
+	virtual bool Hit(const Ray& r, float tMin, float tMax, HitRecord& rec) const = 0;		
 };

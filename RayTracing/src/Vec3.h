@@ -3,59 +3,59 @@
 
 struct Vec3
 {
-	float x, y, z;
+	float X, Y, Z;
 
-	Vec3() : x(0.0f),y(0.0f),z(0.0f) {}
+	Vec3() : X(0.0f),Y(0.0f),Z(0.0f) {}
 	
-	Vec3(float p_x, float p_y, float p_z) : x(p_x), y(p_y), z(p_z) {};
+	Vec3(float x, float y, float z) : X(x), Y(y), Z(z) {};
 
-	inline Vec3 operator+(const Vec3 p_v) const
+	inline Vec3 operator+(const Vec3 u) const
 	{
-		Vec3 v(*this);
+		Vec3 v(this->X, this->Y, this->Z);
 
-		v.x += p_v.x;
-		v.y += p_v.y;
-		v.z += p_v.z;
+		v.X += u.X;
+		v.Y += u.Y;
+		v.Z += u.Z;
 
 		return v;
 	}
 
-	inline Vec3 operator-(const Vec3 p_v) const 
+	inline Vec3 operator-(const Vec3 u) const 
 	{
-		Vec3 v(*this);
+		Vec3 v(this->X, this->Y, this->Z);
 
-		v.x -= p_v.x;
-		v.y -= p_v.y;
-		v.z -= p_v.z;
+		v.X -= u.X;
+		v.Y -= u.Y;
+		v.Z -= u.Z;
 
 		return v;
 	}
 
-	inline Vec3 operator*(const float p_scalar) const 
+	inline Vec3 operator*(const float scalar) const 
 	{
-		Vec3 v(*this);
+		Vec3 v(this->X, this->Y, this->Z);
 
-		v.x *= p_scalar;
-		v.y *= p_scalar;
-		v.z *= p_scalar;
+		v.X *= scalar;
+		v.Y *= scalar;
+		v.Z *= scalar;
 
 		return v;
 	}
 
-	inline Vec3 operator/(const float p_scalar) const
+	inline Vec3 operator/(const float scalar) const
 	{		
-		Vec3 v(*this);
+		Vec3 v(this->X, this->Y, this->Z);
 
-		v.x /= p_scalar;
-		v.y /= p_scalar;
-		v.z /= p_scalar;
+		v.X /= scalar;
+		v.Y /= scalar;
+		v.Z /= scalar;
 
 		return v;
 	}
 
 	inline float Length() const
 	{
-		return sqrt((x*x + y*y + z*z));
+		return sqrt((X*X + Y*Y + Z*Z));
 	}
 
 	inline Vec3 Normalize()
@@ -65,12 +65,12 @@ struct Vec3
 
 	inline Vec3 Normalized() const
 	{
-		Vec3 v(*this);
+		Vec3 v(this->X, this->Y, this->Z);
 		return Vec3(v / Length());
 	}
 };
 
-inline float Dot(const Vec3 v1, const Vec3 v2)
+inline float Dot(const Vec3 v, const Vec3 u)
 {
-	return v1.x * v2.x + v1.y * v2.y + v1.z * v2.z;
+	return v.X * u.X + v.Y * u.Y + v.Z * u.Z;
 }

@@ -3,9 +3,9 @@
 bool Sphere::Hit(const Ray& p_r, float p_tMin, float p_tMax, HitRecord& rec) const
 {
 	//Soluce the quadratic equation
-	float a = Dot(p_r.direction, p_r.direction);
-	float b = Dot(p_r.direction, p_r.origin - center) * 2.0f;
-	float c = Dot(p_r.origin - center, p_r.origin - center) - radius * radius;
+	float a = Dot(p_r.Direction, p_r.Direction);
+	float b = Dot(p_r.Origin - Center, p_r.Direction) * 2.0f;
+	float c = Dot(p_r.Origin - Center, p_r.Origin - Center) - Radius * Radius;
 	float delta = b * b - 4.0f * a * c;
 
 	//No hit
@@ -26,8 +26,8 @@ bool Sphere::Hit(const Ray& p_r, float p_tMin, float p_tMax, HitRecord& rec) con
 	}
 	
 	//Fill the hit record with hit informations	
-	rec.point = p_r.origin + p_r.direction * sol;
-	rec.normal = (rec.point - center) / radius; // We divide by the radius to get an unit vector
-	rec.t = sol;
+	rec.Point = p_r.Origin + p_r.Direction * sol;
+	rec.Normal = (rec.Point - Center) / Radius; // We divide by the radius to get an unit vector
+	rec.T = sol;
 	
 }

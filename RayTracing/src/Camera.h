@@ -7,28 +7,23 @@
 
 class Camera
 {
-	public:
-		const float IMAGE_RATIO = 16.0f / 9.0f;
-		const int IMAGE_WIDTH = 700;
-		const int IMAGE_HEIGHT = static_cast<int>(float(IMAGE_WIDTH) / float(IMAGE_RATIO));
+public:
+	const float IMAGE_RATIO = 16.0f / 9.0f;
+	const int IMAGE_WIDTH = 700;
+	const int IMAGE_HEIGHT = static_cast<int>(float(IMAGE_WIDTH) / float(IMAGE_RATIO));
 
-		float viewportHeight = 2;
-		float viewportWidth = viewportHeight * IMAGE_RATIO;
-		float focalLength = 1;
-
-		Vec3 origin = Vec3(0.0f, 0.0f, 0.0f);
-		Vec3 horizontal = Vec3(viewportWidth, 0.0f, 0.0f);
-		Vec3 vertical = Vec3(0.0f, viewportHeight, 0.0f);
-		Vec3 lowerLeftCorner = origin - Vec3(0.0f, 0.0f, focalLength) - horizontal / 2 - vertical / 2;
-
-	public:
-		Vec3 position;
+	float ViewportHeight = 2.0f;
+	float ViewportWidth = ViewportHeight * IMAGE_RATIO;
+	float FocalLength = 1.0f;
+	Vec3 Origin = Vec3(0.0f, 0.0f, 0.0f);
+	Vec3 Position;
+	Vec3 Horizontal = Vec3(ViewportWidth, 0.0f, 0.0f);
+	Vec3 Vertical = Vec3(0.0f, ViewportHeight, 0.0f);
+	Vec3 LowerLeftCorner = Origin - Vec3(0.0f, 0.0f, FocalLength) - Horizontal / 2.0f - Vertical / 2.0f;	
 		
-	public :
-		Camera() : position(0,0,0) {}
-
-		void Render(World& world);
-		Vec3 RayColor(Ray& r, World& world) const;
+	Camera() : Position(0,0,0) {}
+	void Render(World& world);
+	Vec3 RayColor(Ray& r, World& world) const;
 
 	
 };

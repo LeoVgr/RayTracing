@@ -4,18 +4,12 @@
 
 class World
 {
-	public:
-		std::vector<Hittable*> objectList;
+public:
+	std::vector<Hittable*> ObjectList;
 
-	public:
-		World() {}
-		~World();
-
-	public:
-		bool Hit(const Ray& p_r, float p_tMin, float p_tMax, HitRecord& rec) const;
-
-
-
+	World() {}
+	~World();
+	bool Hit(const Ray& r, float tMin, float tMax, HitRecord& rec) const;
 
 };
 

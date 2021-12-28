@@ -3,9 +3,9 @@
 bool Sphere::Hit(const Ray& p_r, float p_tMin, float p_tMax, HitRecord& rec) const
 {
 	//Soluce the quadratic equation
-	float a = Dot(p_r.Direction, p_r.Direction);
-	float b = Dot(p_r.Origin - Center, p_r.Direction) * 2.0f;
-	float c = Dot(p_r.Origin - Center, p_r.Origin - Center) - Radius * Radius;
+	float a = Vec3::Dot(p_r.Direction, p_r.Direction);
+	float b = Vec3::Dot(p_r.Origin - Center, p_r.Direction) * 2.0f;
+	float c = Vec3::Dot(p_r.Origin - Center, p_r.Origin - Center) - Radius * Radius;
 	float delta = b * b - 4.0f * a * c;
 
 	//No hit

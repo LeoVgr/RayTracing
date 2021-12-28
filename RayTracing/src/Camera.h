@@ -13,7 +13,8 @@ public:
 	const float IMAGE_RATIO = 16.0f / 9.0f;
 	const int IMAGE_WIDTH = 700;
 	const int IMAGE_HEIGHT = static_cast<int>(float(IMAGE_WIDTH) / float(IMAGE_RATIO));
-	const int SAMPLE_PER_PIXEL = 100;
+	const int SAMPLE_PER_PIXEL = 500;
+	const int MAX_DEPTH = 50;
 
 	float ViewportHeight = 2.0f;
 	float ViewportWidth = ViewportHeight * IMAGE_RATIO;
@@ -27,5 +28,5 @@ public:
 	Camera() : Position(0,0,0) {}
 	void Render(World& world);
 	void WriteColor(std::ostream &out, Vec3 color, int SamplePerPixel);
-	Vec3 RayColor(Ray& r, World& world) const;
+	Vec3 RayColor(Ray& r, World& world, int depth) const;
 };

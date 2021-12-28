@@ -25,7 +25,7 @@ void Camera::Render(World& world)
 					float v = float(y + RandomFloat()) / float((IMAGE_HEIGHT - 1));
 
 					Ray ray(Origin, LowerLeftCorner + Horizontal * u + Vertical * v - Origin);
-					pixelColor = pixelColor + RayColor(ray, world);					
+					pixelColor = pixelColor + RayColor(ray, world, MAX_DEPTH);
 				}		
 
 				WriteColor(imageData, pixelColor, SAMPLE_PER_PIXEL);
@@ -47,9 +47,9 @@ void Camera::WriteColor(std::ostream& out, Vec3 color, int SamplePerPixel)
 
 	// Divide the color by the number of samples.
 	float scale = 1.0f / (float)SamplePerPixel;
-	r *= scale;
-	g *= scale;
-	b *= scale;
+	r = sqrt(scale * r);
+	g = sqrt(scale * g);
+	b = sqrt(scale * b);
 
 	// Write the translated [0,255] value of each color component.
 	out << static_cast<int>(256 * Clamp(r, 0.0f, 0.999f)) << ' '
@@ -57,20 +57,28 @@ void Camera::WriteColor(std::ostream& out, Vec3 color, int SamplePerPixel)
 		<< static_cast<int>(256 * Clamp(b, 0.0f, 0.999f)) << '\n';
 }
 
-Vec3 Camera::RayColor(Ray& r, World& world) const
+Vec3 Camera::RayColor(Ray& r, World& world, int depth) const
 {
 	//Initialize the color of the pixel
 	Vec3 color = Vec3(0, 0, 0);
 
-	//We get the y of the point
-	float y = r.Direction.Normalized().Y;
+	// If we've exceeded the ray bounce limit, no more light is gathered.
+	if (depth <= 0)
+		return color;
 
 	//Check if there is a collision with an hittable in the world
 	HitRecord hitInfo;
-	if (world.Hit(r, 0, 1000, hitInfo))
-		return Vec3(hitInfo.Normal.X + 1, hitInfo.Normal.Y + 1, hitInfo.Normal.Z + 1) * 0.5f;
+	if (world.Hit(r, 0.001f, 1000.0f, hitInfo))
+	{
+		Vec3 target = hitInfo.Point + Vec3::RandomInHemisphere(hitInfo.Normal);
+		//Vec3 target = hitInfo.Point + hitInfo.Normal + Vec3::RandomInUnitSphere();
+		Ray bounce = Ray(hitInfo.Point, target - hitInfo.Point);
+		return RayColor(bounce, world, depth -1) * 0.5f;
+	}
 
 	//Background color if no collision
+	//We get the y of the point
+	float y = r.Direction.Normalized().Y;
 	float t = 0.5f * (y + 1); // Keep t between 0 and 1
 
 	Vec3 startingColor = Vec3(0.5f, 0.7f, 1.0f);

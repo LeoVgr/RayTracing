@@ -19,14 +19,16 @@ void Camera::Render(World& world)
 			{
 				Vec3 pixelColor = Vec3(0.0f, 0.0f, 0.0f);
 
-				float u = float(x) / float((IMAGE_WIDTH - 1));
-				float v = float(y) / float((IMAGE_HEIGHT - 1));
+				for (int s = 0; s < SAMPLE_PER_PIXEL; ++s)
+				{
+					float u = float(x + RandomFloat()) / float((IMAGE_WIDTH - 1));
+					float v = float(y + RandomFloat()) / float((IMAGE_HEIGHT - 1));
 
-				Ray ray(Origin, LowerLeftCorner + Horizontal * u + Vertical * v - Origin);
-				pixelColor = RayColor(ray, world);
+					Ray ray(Origin, LowerLeftCorner + Horizontal * u + Vertical * v - Origin);
+					pixelColor = pixelColor + RayColor(ray, world);					
+				}		
 
-				//Write red blue and green of the current pixel (maybe need to convert it to integer)
-				imageData << pixelColor.X * 255 << " " << pixelColor.Y * 255 << " " << pixelColor.Z * 255 << std::endl;			
+				WriteColor(imageData, pixelColor, SAMPLE_PER_PIXEL);
 			}
 		}
 	}
@@ -35,6 +37,24 @@ void Camera::Render(World& world)
 	imageData.close();
 
 	std::cerr << "\nDone."<< std::flush;
+}
+
+void Camera::WriteColor(std::ostream& out, Vec3 color, int SamplePerPixel)
+{
+	float r = color.X;
+	float g = color.Y;
+	float b = color.Z;
+
+	// Divide the color by the number of samples.
+	float scale = 1.0f / (float)SamplePerPixel;
+	r *= scale;
+	g *= scale;
+	b *= scale;
+
+	// Write the translated [0,255] value of each color component.
+	out << static_cast<int>(256 * Clamp(r, 0.0f, 0.999f)) << ' '
+		<< static_cast<int>(256 * Clamp(g, 0.0f, 0.999f)) << ' '
+		<< static_cast<int>(256 * Clamp(b, 0.0f, 0.999f)) << '\n';
 }
 
 Vec3 Camera::RayColor(Ray& r, World& world) const

@@ -159,6 +159,7 @@
     <ClInclude Include="src\Sphere.h" />
     <ClInclude Include="src\Vec3.h" />
     <ClInclude Include="src\World.h" />
+    <ClInclude Include="src\Utility.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
